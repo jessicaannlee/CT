@@ -1,171 +1,93 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>CT Achievement Gap Map</title>
-	<meta charset="utf-8" />
-
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-	<link rel="stylesheet" href="leaflet.css" />
-
-	<style>
-		#map {
-			width: 1000px;
-			height: 650px;
-		}
-
-		.info {
-			padding: 6px 8px;
-			font: 11px/12px Arial, Helvetica, sans-serif;
-			background: white;
-			background: rgba(255,255,255,0.8);
-			box-shadow: 0 0 15px rgba(0,0,0,0.2);
-			border-radius: 5px;
-		}
-		.info h4 {
-			margin: 0 0 5px;
-			color: #777;
-		}
-
-		.legend {
-			text-align: left;
-			line-height: 18px;
-			color: #555;
-		}
-		.legend i {
-			width: 18px;
-			height: 18px;
-			float: left;
-			margin-right: 8px;
-			opacity: 0.7;
-		}
-	</style>
+  <title>SBAC 2015 Achievement Gap</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<div id="map"></div>
 
-	<script src="leaflet.js"></script>
+<div class="container">
+  <h2>Explore CT's Student Achievement Data at the School District Level</h2>
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#ed">ELA</a></li>
+    <li><a data-toggle="tab" href="#md">Math</a></li>
+    <li><a data-toggle="tab" href="#ectd">Vs. State: ELA</a></li>
+    <li><a data-toggle="tab" href="#mctd">Vs. State: Math</a></li>
+    <li><a data-toggle="tab" href="#ehn">High Needs: ELA</a></li>
+    <li><a data-toggle="tab" href="#mhn">High Needs: Math</a></li>
+    <li><a data-toggle="tab" href="#ewb">Black: ELA</a></li>
+    <li><a data-toggle="tab" href="#mwb">Black: Math</a></li>
+    <li><a data-toggle="tab" href="#ewh">Hispanic: ELA</a></li>
+    <li><a data-toggle="tab" href="#ewh">Hispanic: Math</a></li>
+  </ul>
 
-	<script type="text/javascript" src="ctelawb.js"></script>
-	<script type="text/javascript">
+  <div class="tab-content">
+    <div id="ed" class="tab-pane fade in active">
+      <h3>District Achievement in ELA</h3>
+      <p>This map illustrates what student achievement looks like in Connecticut in English Language Arts, across districts by SBAC achievement rates &mdash; specifically the percentage of students who "met or exceeded the achievement level". Hover over a district to get more information. </p>
+      <div id="content">
+                          <iframe id="mapboxembed" width="1000px" height="650px" src="ela_district.html"></iframe></div>
+    </div>
+    <div id="md" class="tab-pane fade">
+      <h3>District Achievement in Math</h3>
+      <p>This map illustrates what student achievement looks like in Connecticut in Math, across districts by SBAC achievement rates &mdash; specifically the percentage of students who "met or exceeded the achievement level". Hover over a district to get more information.</p>
+      <div id="content">
+                          <iframe id="mapboxembed2" width="1000px" height="650px" src="math_district.html"></iframe></div>
+    </div>
+    <div id="ectd" class="tab-pane fade">
+      <h3>How does the district compare to the state in ELA?</h3>
+      <p>This map looks at the difference between the percentage of students in Connecticut who "met or exceeded the achievement level" in SBAC ELA and the percentage of students in the districts who achieved the same levels. Hover over a district to get more information.</p>
+      <div id="content">
+                          <iframe id="mapboxembed3" width="1000px" height="650px" src="ela_ct_district.html"></iframe></div>
+    </div>
+    <div id="mctd" class="tab-pane fade">
+      <h3>How does the district compare to the state in Math?</h3>
+      <p>This map looks at the difference between the percentage of students in Connecticut who "met or exceeded the achievement level" in SBAC Math and the percentage of students in the districts who achieved the same levels. Hover over a district to get more information.</p>
+      <div id="content">
+                          <iframe id="mapboxembed4" width="1000px" height="650px" src="math_ct_district.html"></iframe></div>
+    </div>
+        <div id="ehn" class="tab-pane fade">
+      <h3>How are high needs students performing in ELA?</h3>
+      <p>The Connecticut State Department of Education <a href="http://www.sde.ct.gov/sde/lib/sde/pdf/evalresearch/nextgenerationaccountabilitysystem_20150918.pdf">defines</a> "high needs" students as students who belong to "at least one of the following subgroups &mdash; low income, English learner, or student with disability". This map looks at the difference between the percentage of students in the district who "met or exceeded the achievement level" in SBAC ELA and the average percentage of high needs students in the district who achieved the same levels. Hover over a district to get more information.</p>
+      <div id="content">
+                          <iframe id="mapboxembed4" width="1000px" height="650px" src="ela_hn.html"></iframe></div>
+    </div>
+        <div id="mhn" class="tab-pane fade">
+      <h3>How are high needs students performing in Math?</h3>
+      <p>The Connecticut State Department of Education <a href="http://www.sde.ct.gov/sde/lib/sde/pdf/evalresearch/nextgenerationaccountabilitysystem_20150918.pdf">defines</a> "high needs" students as students who belong to "at least one of the following subgroups &mdash; low income, English learner, or student with disability". This map looks at the difference between the percentage of students in the district who "met or exceeded the achievement level" in SBAC Math and the average percentage of high needs students in the district who achieved the same levels. Hover over a district to get more information.</p>
+      <div id="content">
+                          <iframe id="mapboxembed4" width="1000px" height="650px" src="math_hn.html"></iframe></div>
+    </div>
+    <div id="ewb" class="tab-pane fade">
+      <h3>How are African-American/Black students performing in ELA compared to their peers?</h3>
+      <p>Connecticut is ranked among <a href="https://nces.ed.gov/nationsreportcard/statecomparisons/">America's highest gaps between white and black students</a> in various subjects, according to the NAEP. This map looks at the difference between the percentage of white students in the district who "met or exceeded the achievement level" in SBAC ELA and the percentage of black students in the district who achieved the same levels. Hover over a district to get more information.</p>
+      <div id="content">
+                          <iframe id="mapboxembed4" width="1000px" height="650px" src="ela_wb.html"></iframe></div>
+    </div>
+    <div id="mwb" class="tab-pane fade">
+      <h3>How are African-American/Black students performing in Math compared to their peers?</h3>
+      <p>Connecticut is ranked among <a href="https://nces.ed.gov/nationsreportcard/statecomparisons/">America's highest gaps between white and black students</a> in various subjects, according to the NAEP. This map looks at the difference between the percentage of white students in the district who "met or exceeded the achievement level" in SBAC Math and the percentage of black students in the district who achieved the same levels. Hover over a district to get more information.</p>
+      <div id="content">
+                          <iframe id="mapboxembed4" width="1000px" height="650px" src="math_wb.html"></iframe></div>
+    </div>
+    <div id="ewh" class="tab-pane fade">
+      <h3>How are Hispanic students performing in ELA compared to their peers?</h3>
+      <p>Connecticut is ranked among America's highest gaps between white and Hispanic students in various subjects, <a href="https://nces.ed.gov/nationsreportcard/statecomparisons/">according to the NAEP</a>. This map looks at the difference between the percentage of white students in the district who "met or exceeded the achievement level" in SBAC ELA and the percentage of Hispanic students in the district who achieved the same levels. Hover over a district to get more information.</p>
+      <div id="content">
+                          <iframe id="mapboxembed4" width="1000px" height="650px" src="ela_wh.html"></iframe></div>
+    </div>
+    <div id="mwb" class="tab-pane fade">
+      <h3>How are Hispanic students performing in Math compared to their peers?</h3>
+      <p>Connecticut is ranked among America's highest gaps between white and Hispanic students in various subjects, <a href="https://nces.ed.gov/nationsreportcard/statecomparisons/">according to the NAEP</a>. This map looks at the difference between the percentage of white students in the district who "met or exceeded the achievement level" in SBAC Math and the percentage of Hispanic students in the district who achieved the same levels. Hover over a district to get more information.</p>
+      <div id="content">
+                          <iframe id="mapboxembed4" width="1000px" height="650px" src="math_wh.html"></iframe></div>
+    </div>
+  </div>
+</div>
 
-		var map = L.map('map').setView([41.5, -72.6], 9);
-
-		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiamVzc2ljYWFubmxlZSIsImEiOiJjaW42aWd1OTQwMGZxdTlseWduaW42YXBpIn0.uxeuqNgrmW6-se8viVrF5A', {
-			maxZoom: 18,
-			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-				'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-				'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-			id: 'mapbox.light'
-		}).addTo(map);
-
-		// control that shows state info on hover
-		var info = L.control();
-
-		info.onAdd = function (map) {
-			this._div = L.DomUtil.create('div', 'info');
-			this.update();
-			return this._div;
-		};
-
-		info.update = function (props) {
-			this._div.innerHTML = '<h4>ELA White-Black Achievement Gap</h4><i>*999: no data</i><br><br>' +  (props ?
-				'<b>' + props.name + '</b><br />' + props.gap + ''
-				: 'Hover over a district');
-		};
-
-		info.addTo(map);
-
-		// get color depending on population density value
-		function getColor(d) {
-			return d > 1 ? '#808080' :
-			       d > 0.4  ? '#BD0026' :
-			       d > 0.3  ? '#E31A1C' :
-			       d > 0.2   ? '#FD8D3C' :
-			       d > 0.1   ? '#FEB24C' :
-			       d > 0   ? '#FED976' :
-			                  '#FFEDA0';
-		}
-
-		function style(feature) {
-			return {
-				weight: 2,
-				opacity: 1,
-				color: 'white',
-				dashArray: '3',
-				fillOpacity: 0.7,
-				fillColor: getColor(feature.properties.gap)
-			};
-		}
-
-		function highlightFeature(e) {
-			var layer = e.target;
-
-			layer.setStyle({
-				weight: 5,
-				color: '#666',
-				dashArray: '',
-				fillOpacity: 0.7
-			});
-
-			if (!L.Browser.ie && !L.Browser.opera) {
-				layer.bringToFront();
-			}
-
-			info.update(layer.feature.properties);
-		}
-
-		var geojson;
-
-		function resetHighlight(e) {
-			geojson.resetStyle(e.target);
-			info.update();
-		}
-
-		function zoomToFeature(e) {
-			map.fitBounds(e.target.getBounds());
-		}
-
-		function onEachFeature(feature, layer) {
-			layer.on({
-				mouseover: highlightFeature,
-				mouseout: resetHighlight,
-				click: zoomToFeature
-			});
-		}
-
-		geojson = L.geoJson(ctelawb,
-			{style: style,
-				onEachFeature: onEachFeature}).addTo(map);
-
-		map.attributionControl.addAttribution('Test data &copy; <a href="http://www.sde.ct.gov/sde/lib/sde/excel/smarterbalanced/settingthebaseline2015.xls">CT SDE</a>, ' +
-			'District boundaries &copy; <a href="http://magic.lib.uconn.edu/connecticut_data.html#education">UConn</a>');
-
-		var legend = L.control({position: 'bottomright'});
-
-		legend.onAdd = function (map) {
-
-			var div = L.DomUtil.create('div', 'info legend'),
-				grades = [0, 0.1, 0.2, 0.3, 0.4, 1],
-				labels = [],
-				from, to;
-
-			for (var i = 0; i < grades.length; i++) {
-				from = grades[i];
-				to = grades[i + 0.1];
-
-				labels.push(
-					'<i style="background:' + getColor(from + 0.01) + '"></i> ' +
-					from + (to ? '&ndash;' + to : '+'));
-			}
-
-			div.innerHTML = labels.join('<br>');
-			return div;
-		};
-
-		legend.addTo(map);
-
-	</script>
 </body>
 </html>

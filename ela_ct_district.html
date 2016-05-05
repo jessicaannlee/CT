@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<title>State vs. District: ELA</title>
+<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+<script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.js'></script>
+<script src="jquery-2.1.1.min.js"></script>
+<link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css' rel='stylesheet' />
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+<style>
+  body { margin:0; padding:0; }
+        #map {
+            width: 1000px;
+            height: 650px;
+        }
+        .info {
+            padding: 6px 8px;
+            font: 11px/12px Arial, Helvetica, sans-serif;
+            background: white;
+            background: rgba(255,255,255,0.8);
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            border-radius: 5px;
+        }
+        .info h4 {
+            margin: 0 0 5px;
+            color: #777;
+        }
+
+        .legend {
+            text-align: left;
+            line-height: 18px;
+            color: #555;
+        }
+        .legend i {
+            width: 18px;
+            height: 18px;
+            float: left;
+            margin-right: 8px;
+            opacity: 0.7;
+        }
+</style>
+</head>
+<body>
+
+	<div id="map"></div>
+
+	<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    <script type="text/javascript" src="gaps.js"></script>
+	<script type="text/javascript">
+
+var map = L.map('map').setView([41.5, -72.6], 9);
+
+		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiamVzc2ljYWFubmxlZSIsImEiOiJjaW42aWd1OTQwMGZxdTlseWduaW42YXBpIn0.uxeuqNgrmW6-se8viVrF5A', {
+			maxZoom: 18,
+			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+				'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+				'Imagery © <a href="http://mapbox.com">Mapbox</a>,' +
+				'Test data &copy; <a href="http://www.sde.ct.gov/sde/lib/sde/excel/smarterbalanced/settingthebaseline2015.xls">CT SDE</a>, ' +
+			'District boundaries &copy; <a href="http://magic.lib.uconn.edu/connecticut_data.html#education">UConn</a>',
+			id: 'mapbox.light'
+		}).addTo(map);
+
+        // control that shows state info on hover
+        var info = L.control();
+
+        info.onAdd = function (map) {
+            this._div = L.DomUtil.create('div', 'info');
+            this.update();
+            return this._div;
+        };
+
+        info.update = function (props) {
+            this._div.innerHTML = '<h4>CT - District: ELA<br>% "Meets/exceeds<br>achievement"</h4><br>' +  (props ?
+                '<b>' + props.name + '</b><br />' + props.ELAStateDistrict + '% Point Difference'
+                : 'Hover over a district');
+        };
+
+        info.addTo(map);
+
+        // get color depending on assessment data
+        function getColor(d) {
+            return d > 30 ? '#A50026':
+                   d > 15 ? '#D73027':
+                   d > 5 ? '#F46D43':
+                   d > 0 ? '#FDAE61':
+                   d > -5 ?  '#FEE090':
+                   d > -15 ? '#ABD9E9':
+                   d > -30 ?  '#74ADD1':
+                              '#313695';
+        }
+
+        function style(feature) {
+            return {
+                weight: 2,
+                opacity: 1,
+                color: 'white',
+                dashArray: '3',
+                fillOpacity: 0.9,
+                fillColor: getColor(feature.properties.ELAStateDistrict)
+            };
+        }
+
+                function highlightFeature(e) {
+            var layer = e.target;
+
+            layer.setStyle({
+                weight: 5,
+                color: '#666',
+                dashArray: '',
+                fillOpacity: 0.7
+            });
+
+            if (!L.Browser.ie && !L.Browser.opera) {
+                layer.bringToFront();
+            }
+
+            info.update(layer.feature.properties);
+        }
+
+        var geojson = L.geoJson(gaps, {
+            style: style,
+            filter:function (feature, layer) {
+                if(feature.properties.ELAStateDistrict){
+                    return feature.properties.ELAStateDistrict != 999;
+                }
+                return false}, 
+                onEachFeature: onEachFeature}).addTo(map);
+
+                function resetHighlight(e) {
+            geojson.resetStyle(e.target);
+            info.update();
+        }
+
+        function zoomToFeature(e) {
+            map.fitBounds(e.target.getBounds());
+        }
+
+        function onEachFeature(feature, layer) {
+            layer.on({
+                mouseover: highlightFeature,
+                mouseout: resetHighlight,
+                click: zoomToFeature
+            });
+        }
+
+        function resetHighlight(e) {
+            geojson.resetStyle(e.target);
+            info.update();
+        }
+
+        function zoomToFeature(e) {
+            map.fitBounds(e.target.getBounds());
+        }
+
+        function onEachFeature(feature, layer) {
+            layer.on({
+                mouseover: highlightFeature,
+                mouseout: resetHighlight,
+                click: zoomToFeature
+            });
+        }
+
+                var legend = L.control({position: 'bottomright'});
+
+        legend.onAdd = function (map) {
+
+            var div = L.DomUtil.create('div', 'info legend'),
+                grades = [-30, -15, -5, 0, 5, 15, 30],
+                labels = ['CT-District Gap (%)'],
+                from, to;
+
+            for (var i = 0; i < grades.length; i++) {
+                from = grades[i];
+                to = grades[i + 1];
+
+                labels.push(
+                    '<i style="background:' + getColor(from + 1) + '"></i> ' +
+                    from + (to ? ' to ' + to : '+'));
+            }
+
+            div.innerHTML = labels.join('<br>');
+            return div;
+        };
+
+        legend.addTo(map);
+
+</script>
+
+
+</body>
+</html>
